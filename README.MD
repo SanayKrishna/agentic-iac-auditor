@@ -10,6 +10,7 @@ Agentic IaC Auditor is an AI-assisted Infrastructure-as-Code (IaC) auditing fram
 - Fast local scanning with zero external API dependency.
 
 ## Project Structure
+```
 agentic-iac-auditor/
 │
 ├── main.py                 # Core execution and rule orchestration
@@ -23,20 +24,16 @@ agentic-iac-auditor/
 │   ├── weak_tls.tf
 │   └── unencrypted_ebs.tf
 └── requirements.txt         # Python dependencies
+```
 
 ## Installation
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/SanayKrishna/agentic-iac-auditor.git
-   cd agentic-iac-auditor
-   ```
-2. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
+```bash
+git clone https://github.com/SanayKrishna/agentic-iac-auditor.git
+cd agentic-iac-auditor
+pip install -r requirements.txt
+```
 
 ## Usage
-To run the auditor against your Terraform configurations:
 ```bash
 python main.py --path /path/to/terraform/files
 ```
@@ -44,7 +41,8 @@ Example:
 ```bash
 python main.py --path ./examples
 ```
-Output:
+
+**Sample Output:**
 ```
 [!] Detected: Public S3 Bucket (aws_s3_bucket.public)
 [!] Detected: Weak TLS Policy (ELBSecurityPolicy-2015-05)
@@ -78,4 +76,3 @@ This project is licensed under the MIT License. See `LICENSE` for details.
 **Sanay Krishna**  
 Cloud Security & DevSecOps Researcher  
 Maintained for open-source community security advancement.
-
