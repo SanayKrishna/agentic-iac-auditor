@@ -1,0 +1,6 @@
+pip install --upgrade pip
+pip install crewai==0.28.0
+pip install crewai-tools==0.4.7
+pip install openai
+pip install python-dotenv
+pip install gradio
