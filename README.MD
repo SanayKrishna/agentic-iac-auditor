@@ -69,10 +69,4 @@ No issues detected in remaining files.
 - AI-based remediation recommendations.
 - GitHub Actions integration for automated IaC auditing.
 
-## License
-This project is licensed under the MIT License. See `LICENSE` for details.
 
-## Maintainer
-**Sanay Krishna**  
-Cloud Security & DevSecOps Researcher  
-Maintained for open-source community security advancement.
