@@ -1,67 +1,81 @@
 # Agentic IaC Auditor
 
-## Project Overview
-Agentic IaC Auditor is a full-stack AI-driven platform designed to **audit and remediate Terraform Infrastructure-as-Code (IaC) files**. The system detects vulnerabilities and misconfigurations in cloud infrastructure, applies fixes while preserving functionality, and generates clear human-readable summaries for developers and security teams.
+Agentic IaC Auditor is an AI-assisted Infrastructure-as-Code (IaC) auditing framework designed to automatically detect misconfigurations, security risks, and compliance violations in Terraform configurations. It leverages intelligent scanning logic to identify issues such as public S3 buckets, weak TLS policies, missing encryption settings, and insecure IAM configurations—ensuring cloud infrastructure aligns with security best practices and organizational compliance standards.
 
-The goal is to **streamline cloud security audits**, reduce manual review effort, and ensure infrastructure adheres to best practices.
+## Features
+- Automated scanning of Terraform (`.tf`) files for misconfigurations.
+- Detection of security risks like public exposure, weak encryption, and outdated TLS policies.
+- Modular and extensible architecture supporting future policy integrations.
+- Lightweight, agent-based design suitable for CI/CD pipelines.
+- Fast local scanning with zero external API dependency.
 
 ## Project Structure
-src/
-  ├── app.py             # Gradio front-end and app logic
-  ├── agents.py          # AI agents definitions (auditor, remediator, explainer)
-  ├── main.py            # Core orchestration logic
-  ├── task.py            # Task management for AI agents
-  ├── database.py        # Simple database handling (optional)
-  ├── orchestrator.py    # AI orchestration and playbooks
+agentic-iac-auditor/
+│
+├── main.py                 # Core execution and rule orchestration
+├── rules/                  # Modular rule definitions for specific checks
+│   ├── s3_public_access.py
+│   ├── weak_tls_policy.py
+│   ├── unencrypted_storage.py
+│   └── insecure_iam_policy.py
+├── examples/               # Example Terraform files for testing
+│   ├── s3_public.tf
+│   ├── weak_tls.tf
+│   └── unencrypted_ebs.tf
+└── requirements.txt         # Python dependencies
 
-venv/                     # Python virtual environment
-requirements.txt          # Python dependencies
-
-## Agents Overview
-
-1. **iac_auditor_agent**
-   - Role: Senior Infrastructure Security Engineer
-   - Goal: Audit Terraform IaC files for vulnerabilities and misconfigurations. Deliver a clear, actionable report with precise security findings.
-   - Backstory: Experienced cloud security professional skilled in AWS, Azure, and GCP security best practices. Trained to detect IaC misconfigurations and compliance issues.
-   - Verbose: True
-
-2. **iac_remediator_agent**
-   - Role: Cloud Security DevOps Specialist
-   - Goal: Fix Terraform code while preserving its functionality but making it compliant and secure.
-   - Backstory: DevOps and cloud compliance specialist who can intelligently rewrite Terraform configurations to follow least privilege, secure-by-default, and encryption standards.
-   - Verbose: True
-
-3. **iac_explainer_agent**
-   - Role: Technical Security Writer
-   - Goal: Generate a human-readable summary of the Terraform audit and remediation results.
-   - Backstory: Cybersecurity technical writer who explains security changes clearly for developers, including the reasoning and impact of each fix.
-   - Verbose: True
+## Installation
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/SanayKrishna/agentic-iac-auditor.git
+   cd agentic-iac-auditor
+   ```
+2. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
 
 ## Usage
-1. **Set up environment**
-   - `python -m venv venv`
-   - `venv\Scripts\activate` (Windows) or `source venv/bin/activate` (Linux/Mac)
-   - `pip install -r requirements.txt`
+To run the auditor against your Terraform configurations:
+```bash
+python main.py --path /path/to/terraform/files
+```
+Example:
+```bash
+python main.py --path ./examples
+```
+Output:
+```
+[!] Detected: Public S3 Bucket (aws_s3_bucket.public)
+[!] Detected: Weak TLS Policy (ELBSecurityPolicy-2015-05)
+[!] Detected: Unencrypted EBS Volume (aws_ebs_volume.unencrypted)
+No issues detected in remaining files.
+```
 
-2. **Run the app**
-   - `python app.py`
-   - Open the local URL in a browser (usually http://127.0.0.1:7860)
-   - Upload a Terraform `.tf` file and click submit
+## Supported Rules
+| Category | Rule Name | Description |
+|-----------|------------|-------------|
+| S3 Security | Public Access | Detects buckets with `acl = "public-read"` or `public-read-write`. |
+| TLS Security | Weak Policy | Identifies outdated SSL/TLS configurations. |
+| Storage Security | Missing Encryption | Detects volumes or databases lacking encryption. |
+| IAM Security | Insecure Policy | Flags overly permissive IAM policies using `"*"` actions or resources. |
 
-## Example Terraform File
-resource "aws_s3_bucket" "my_bucket" {
-  bucket = "my-insecure-project-bucket"
-  acl    = "public-read"
-}
+## Tech Stack
+- **Language:** Python 3.x  
+- **Core Modules:** `os`, `re`, `json`  
+- **Extensibility:** Easily integrate new rules by adding Python modules to `/rules`.
 
-resource "aws_security_group" "web_sg" {
-  name        = "web-server-sg"
-  description = "Allow HTTP and SSH traffic"
-  
-  ingress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-}
+## Roadmap
+- Integration with AWS Config and Security Hub APIs.
+- Support for other IaC formats (CloudFormation, Pulumi).
+- AI-based remediation recommendations.
+- GitHub Actions integration for automated IaC auditing.
+
+## License
+This project is licensed under the MIT License. See `LICENSE` for details.
+
+## Maintainer
+**Sanay Krishna**  
+Cloud Security & DevSecOps Researcher  
+Maintained for open-source community security advancement.
+
