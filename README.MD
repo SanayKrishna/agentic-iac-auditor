@@ -28,7 +28,7 @@ git clone https://github.com/SanayKrishna/agentic-iac-auditor.git
 cd agentic-iac-auditor
 python -m venv venv
 source venv/bin/activate        # Windows: venv\Scripts\activate
-pip install gradio python-hcl2 crewai==0.28.0 crewai-tools==0.4.7 openai python-dotenv
+pip install -r requirements.txt
 python app.py
 ```
 
